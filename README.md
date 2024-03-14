@@ -1,36 +1,16 @@
-# Single-Image-Dehazing-Python
-python implementation of the paper: "Efficient Image Dehazing with Boundary Constraint and Contextual Regularization"
+# Fusion Based Variational Image Dehazing 
 
 ## Understand the best hyperparameters for your use case: :eyes:
 Please use this web-app to upload your image and understand what parameters work best for your use case:<br>
 https://utkarsh-deshmukh-streamlit-image-dehaze-run-haze-removal-vo1yua.streamlit.app/
 <br> Hope it helps you use the library more efficiently :champagne:
-# Results
-![2](https://user-images.githubusercontent.com/13918778/84451507-1cbbb180-ac08-11ea-816f-8ec983fd370d.JPG)
-============================================================================================================
-![1](https://user-images.githubusercontent.com/13918778/84451353-b0d94900-ac07-11ea-8f1b-3791e9f2f600.JPG)
-============================================================================================================
-![3](https://user-images.githubusercontent.com/13918778/84451641-8471fc80-ac08-11ea-8a7d-59f566b1c3bb.JPG)
-
 
 ## Installation and Running the tests
+  1. Go to the src folder
+  2. run the file "example.py"
+  3. sample images are stored in the "Images/" folder
+  4. Output images will be stored in the "outputImages/" folder
 
-### method 1
-  ```
-  pip install image_dehazer
-  ```
-  
-  **Usage:**
-  ```
-  import image_dehazer										# Load the library
-
-  HazeImg = cv2.imread('image_path')						# read input image -- (**must be a color image**)
-  HazeCorrectedImg, HazeTransmissionMap = image_dehazer.remove_haze(HazeImg)		# Remove Haze
-
-  cv2.imshow('input image', HazeImg);						# display the original hazy image
-  cv2.imshow('enhanced_image', HazeCorrectedImg);			# display the result
-  cv2.waitKey(0)											# hold the display window
-  ```
 ### user controllable parameters (with their default values):
 ```
 airlightEstimation_windowSze=15
@@ -42,13 +22,6 @@ sigma=0.5
 delta=0.85
 showHazeTrasmissionMap=True
 ```
-### method 2
-
-  1. Go to the src folder
-  2. run the file "example.py"
-  3. sample images are stored in the "Images/" folder
-  4. Output images will be stored in the "outputImages/" folder
-
 
 # Libraries needed:
   1.numpy==1.19.0
