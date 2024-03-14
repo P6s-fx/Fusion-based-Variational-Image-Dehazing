@@ -1,7 +1,7 @@
 # Fusion Based Variational Image Dehazing 
 ## Installation and Running the tests
   1. Go to the src folder
-  2. run the file "example.py"
+  2. run the file "main.py"
   3. sample images are stored in the "Images/" folder
   4. Output images will be stored in the "outputImages/" folder
 
