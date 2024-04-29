@@ -29,6 +29,10 @@ class image_dehazer():
             minImg = cv2.erode(HazeImg, kernel)
             self._A.append(int(minImg.max()))
 
+# *******************************************************************
+# Boundary Constraint
+# Tb(x) = Min[Max(  Ac-Icx / Ac - C0  ,  Ac - Icx / Ac - C1  ) , 1 ]
+# *******************************************************************
     def __BoundCon(self, HazeImg):
         if (len(HazeImg.shape) == 3):
 
@@ -49,23 +53,26 @@ class image_dehazer():
         kernel = np.ones((self.boundaryConstraint_windowSze, self.boundaryConstraint_windowSze), float)
         self._Transmission = cv2.morphologyEx(self._Transmission, cv2.MORPH_CLOSE, kernel=kernel)
 
+    #(Robinson Compass Mask) for Edge-Detection
     def __LoadFilterBank(self):
-        KirschFilters = []
-        KirschFilters.append(np.array([[-3, -3, -3], [-3, 0, 5], [-3, 5, 5]]))
-        KirschFilters.append(np.array([[-3, -3, -3], [-3, 0, -3], [5, 5, 5]]))
-        KirschFilters.append(np.array([[-3, -3, -3], [5, 0, -3], [5, 5, -3]]))
-        KirschFilters.append(np.array([[5, -3, -3], [5, 0, -3], [5, -3, -3]]))
-        KirschFilters.append(np.array([[5, 5, -3], [5, 0, -3], [-3, -3, -3]]))
-        KirschFilters.append(np.array([[5, 5, 5], [-3, 0, -3], [-3, -3, -3]]))
-        KirschFilters.append(np.array([[-3, 5, 5], [-3, 0, 5], [-3, -3, -3]]))
-        KirschFilters.append(np.array([[-3, -3, 5], [-3, 0, 5], [-3, -3, 5]]))
-        KirschFilters.append(np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]))
-        return (KirschFilters)
+        RobinFilter=[]
+        RobinFilter.append(np.array([[-2, -1, 0], [-1, 0, 1], [0, 1, 2]]))
+        RobinFilter.append(np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]]))
+        RobinFilter.append(np.array([[0, -1, -2], [1, 0, -1], [2, 1, 0]]))
+        RobinFilter.append(np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]]))
+        RobinFilter.append(np.array([[2, 1, 0], [1, 0, -1], [0, -1, -2]]))
+        RobinFilter.append(np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]]))
+        RobinFilter.append(np.array([[0, 1, 2], [-1, 0, 1], [-2, -1, 0]]))
+        RobinFilter.append(np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]))
+        RobinFilter.append(np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]))
+        return (RobinFilter)
 
+
+    #*************************************
+    # Weighting Function
+    # W(x,y) = e^[(Ix-Iy)sqrt(2)/2Sigma^2
+    #*************************************
     def __CalculateWeightingFunction(self, HazeImg, Filter):
-
-        # Computing the weight function... Eq (17) in the paper
-
         HazeImageDouble = HazeImg.astype(float) / 255.0
         if (len(HazeImg.shape) == 3):
             Red = HazeImageDouble[:, :, 2]
@@ -97,45 +104,36 @@ class image_dehazer():
 
     def __CalTransmission(self, HazeImg):
         rows, cols = self._Transmission.shape
-
-        KirschFilters = self.__LoadFilterBank()
+        RobinFilter = self.__LoadFilterBank()
 
         # Normalize the filters
-        for idx, currentFilter in enumerate(KirschFilters):
-            KirschFilters[idx] = KirschFilters[idx] / np.linalg.norm(currentFilter)
+        for idx, currentFilter in enumerate(RobinFilter):
+            RobinFilter[idx] = RobinFilter[idx] / np.linalg.norm(currentFilter)
 
-        # Calculate Weighting function --> [rows, cols. numFilters] --> One Weighting function for every filter
         WFun = []
-        for idx, currentFilter in enumerate(KirschFilters):
+        for idx, currentFilter in enumerate(RobinFilter):
             WFun.append(self.__CalculateWeightingFunction(HazeImg, currentFilter))
 
-        # Precompute the constants that are later needed in the optimization step
         tF = np.fft.fft2(self._Transmission)
         DS = 0
 
-        for i in range(len(KirschFilters)):
-            D = self.__psf2otf(KirschFilters[i], (rows, cols))
-            # D = psf2otf(KirschFilters[i], (rows, cols))
+        for i in range(len(RobinFilter)):
+            D = self.__psf2otf(RobinFilter[i], (rows, cols))
+
             DS = DS + (abs(D) ** 2)
 
-        # Cyclic loop for refining t and u --> Section III in the paper
-        beta = 1  # Start Beta value --> selected from the paper
-        beta_max = 2 ** 4  # Selected from the paper --> Section III --> "Scene Transmission Estimation"
-        beta_rate = 2 * np.sqrt(2)  # Selected from the paper
+        beta = 1  
+        beta_max = 2 ** 4  
+        beta_rate = 2 * np.sqrt(2)  
 
         while (beta < beta_max):
             gamma = self.regularize_lambda / beta
 
-            # Fixing t first and solving for u
             DU = 0
-            for i in range(len(KirschFilters)):
-                dt = self.__circularConvFilt(self._Transmission, KirschFilters[i])
-                u = np.maximum((abs(dt) - (WFun[i] / (len(KirschFilters) * beta))), 0) * np.sign(dt)
-                DU = DU + np.fft.fft2(self.__circularConvFilt(u, cv2.flip(KirschFilters[i], -1)))
-
-            # Fixing u and solving t --> Equation 26 in the paper
-            # Note: In equation 26, the Numerator is the "DU" calculated in the above part of the code
-            # In the equation 26, the Denominator is the DS which was computed as a constant in the above code
+            for i in range(len(RobinFilter)):
+                dt = self.__circularConvFilt(self._Transmission, RobinFilter[i])
+                u = np.maximum((abs(dt) - (WFun[i] / (len(RobinFilter) * beta))), 0) * np.sign(dt)
+                DU = DU + np.fft.fft2(self.__circularConvFilt(u, cv2.flip(RobinFilter[i], -1)))
 
             self._Transmission = np.abs(np.fft.ifft2((gamma * tF + DU) / (gamma + DS)))
             beta = beta * beta_rate
@@ -153,9 +151,6 @@ class image_dehazer():
         :return: result --> Dehazed image
         '''
 
-        # This function will implement equation(3) in the paper
-        # " https://www.cv-foundation.org/openaccess/content_iccv_2013/papers/Meng_Efficient_Image_Dehazing_2013_ICCV_paper.pdf "
-
         epsilon = 0.0001
         Transmission = pow(np.maximum(abs(self._Transmission), epsilon), self.delta)
 
@@ -172,88 +167,25 @@ class image_dehazer():
         return (HazeCorrectedImage)
 
     def __psf2otf(self, psf, shape):
-        '''
-            this code is taken from:
-            https://pypi.org/project/pypher/
-        '''
-        """
-        Convert point-spread function to optical transfer function.
-
-        Compute the Fast Fourier Transform (FFT) of the point-spread
-        function (PSF) array and creates the optical transfer function (OTF)
-        array that is not influenced by the PSF off-centering.
-        By default, the OTF array is the same size as the PSF array.
-
-        To ensure that the OTF is not altered due to PSF off-centering, PSF2OTF
-        post-pads the PSF array (down or to the right) with zeros to match
-        dimensions specified in OUTSIZE, then circularly shifts the values of
-        the PSF array up (or to the left) until the central pixel reaches (1,1)
-        position.
-
-        Parameters
-        ----------
-        psf : `numpy.ndarray`
-            PSF array
-        shape : int
-            Output shape of the OTF array
-
-        Returns
-        -------
-        otf : `numpy.ndarray`
-            OTF array
-
-        Notes
-        -----
-        Adapted from MATLAB psf2otf function
-
-        """
         if np.all(psf == 0):
             return np.zeros_like(psf)
 
         inshape = psf.shape
-        # Pad the PSF to outsize
+
         psf = self.__zero_pad(psf, shape, position='corner')
 
-        # Circularly shift OTF so that the 'center' of the PSF is
-        # [0,0] element of the array
         for axis, axis_size in enumerate(inshape):
             psf = np.roll(psf, -int(axis_size / 2), axis=axis)
 
-        # Compute the OTF
+
         otf = np.fft.fft2(psf)
 
-        # Estimate the rough number of operations involved in the FFT
-        # and discard the PSF imaginary part if within roundoff error
-        # roundoff error  = machine epsilon = sys.float_info.epsilon
-        # or np.finfo().eps
         n_ops = np.sum(psf.size * np.log2(psf.shape))
         otf = np.real_if_close(otf, tol=n_ops)
 
         return otf
 
     def __zero_pad(self, image, shape, position='corner'):
-        """
-        Extends image to a certain size with zeros
-
-        Parameters
-        ----------
-        image: real 2d `numpy.ndarray`
-            Input image
-        shape: tuple of int
-            Desired output shape of the image
-        position : str, optional
-            The position of the input image in the output one:
-                * 'corner'
-                    top-left corner (default)
-                * 'center'
-                    centered
-
-        Returns
-        -------
-        padded_img: real `numpy.ndarray`
-            The zero-padded image
-
-        """
         shape = np.asarray(shape, dtype=int)
         imshape = np.asarray(image.shape, dtype=int)
 
