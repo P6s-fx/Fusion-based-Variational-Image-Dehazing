@@ -19,8 +19,7 @@ This project is Implementation of Reseach Paper.  [Paper-PDF](/Documents/Impleme
 
 ## UserInterface
 
-![Product Screenshot](/Experimental Results
-/IMG1.png)
+![Product Screenshot](https://github.com/P6s-fx/Image-Dehazing-with-Boundary-Constraint-and-Contextual-Regularization/blob/main/Experimental%20Results/IMG1.png)
 
 ## Features
 
