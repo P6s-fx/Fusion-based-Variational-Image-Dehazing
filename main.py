@@ -74,7 +74,10 @@ def call_haze():
     if(mse == 0): 
         print(100)
     max_pixel = 255.0
-    psnr = 20 * math.log10(max_pixel / math.sqrt(mse)) 
+    if(mse != 0):
+        psnr = 20 * math.log10(max_pixel / math.sqrt(mse)) 
+    else:
+        psnr = 20 * math.log10(max_pixel / math.sqrt(mse+0.1)) 
     print("Peak Signal to Noise Ratio(PSNR) : ",psnr)
 
 #SSIM 
