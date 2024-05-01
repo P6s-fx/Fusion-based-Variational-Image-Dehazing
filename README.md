@@ -1,152 +1,54 @@
-                        
+# Image Dehazing with Boundary Constraint and Contextual Regularization
 
+## Description
 
+This project focuses on the implementation and enhancement of a novel method for single image dehazing. The proposed method combines a boundary constraint with a weighted L1-norm based contextual regularization to estimate the unknown scene transmission, aiming to remove hazes from a single input image efficiently and effectively.
 
+This project is Implementation of Reseach Paper. [Ckeck Out](Implemented_Research_paper.pdf)
 
+## Table of Contents
 
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
 
+## Features
 
+This Project contains following Features :
 
+- Basic Tkinter UI to get image dehazing results of hazy image.
+- PSNR(Peak Signal to Noise Ration) : The calculation of noise removal of hazy image.
+- SSIM(Structural Similarity Index) : The Structural calculation of dehaze image in context of Luminance and Contrast.
 
+## Installation
 
+To test the working of the project, follow these installation steps:
 
+1. Clone this repository to your local machine.
 
+```bash
+git clone https://github.com/P6s-fx/Image-Dehazing-with-Boundary-Constraint-and-Contextual-Regularization.git
+```
+2. Install the required Python libraries if you haven't already.
+```bash
+pip install -r requirements.txt
+```
 
+3. Run the application.
+```bash
+python main.py
+```
 
+## Usage
+- Launch the application using the installation steps mentioned above.
+- Use the user-friendly interface to dehaze Hazy Image.
+- Check PSNR and SSIM from the Terminal to analyze the dehazing. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-<br/>
-<div align="center">
-<a href="https://github.com/ShaanCoding/ReadME-Generator">
-<img src="https://source.unsplash.com/random/256x256" alt="Logo" width="80" height="80">
-</a>
-<h3 align="center">ReadME Generator</h3>
-<p align="center">
-An awesome README template to jumpstart your projects!
-<br/>
-<br/>
-<a href="https://github.com/ShaanCoding/ReadME-Generator/"><strong>Explore the docs »</strong></a>
-<br/>
-<br/>
-<a href="https://github.com/ShaanCoding/ReadME-Generator/">View Demo .</a>  
-<a href="https://github.com/ShaanCoding/ReadME-Generator/issues/new?labels=bug&template=bug-report---.md">Report Bug .</a>
-<a href="https://github.com/ShaanCoding/ReadME-Generator/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-</p>
-</div>
-
- ## About The Project
-
-![Product Screenshot](https://source.unsplash.com/random/1920x1080)
-
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-
-- Your time should be focused on creating something amazing. A project that solves a problem and helps others
-- You shouldn't be doing the same tasks over and over like creating a README from scratch
-- You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
- ### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-- [Next](https://nextjs.org)
-- [React](https://reactjs.org)
-- [Vue](https://vuejs.org)
-- [Angular](https://angular.io)
-- [Svelte](https://svelte.dev)
-- [Laravel](https://laravel.com)
-- [Bootstrap](https://getbootstrap.com)
-- [JQuery](https://jquery.com)
- ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
- ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
- ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
- ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
- ## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-  - [ ] Chinese
-  - [ ] Spanish
-
-See the [open issues](https://github.com/ShaanCoding/ReadME-Generator/issues) for a full list of proposed features (and known issues).
- ## Contributing
-
+## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -157,18 +59,21 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
- ## License
 
-Distributed under the MIT License. See [MIT License](https://opensource.org/licenses/MIT) for more information.
- ## Contact
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+## Acknowledgments
+We would like to acknowledge the following libraries and modules that made this project possible:
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
- ## Acknowledgments
+- Tkinter
+- Pillow
+- OpenCV
+- Numpy
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-
-- [makeread.me](https://github.com/ShaanCoding/ReadME-Generator)
-- [othneildrew](https://github.com/othneildrew/Best-README-Template)
+## Contact
+If you have questions or want to get in touch with the project maintainer, feel free to contact:
+- Param Suthar
+- Email: param.corpid@email.com
+- Linkedin: [Linkedin/ParamSuthar](https://www.linkedin.com/in/paramsuthar)
+- GitHub: [Github/P6s-fx](https://github.com/P6s-fx)
