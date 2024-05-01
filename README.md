@@ -8,7 +8,8 @@ This project is Implementation of Research Paper.  [Paper-PDF](/Documents/Implem
 
 ## Table of Contents
 
-- [User Interface](#UserInterface)
+- [Project Structure](#project_structure)
+- [User Interface](#userinterface)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -16,6 +17,18 @@ This project is Implementation of Research Paper.  [Paper-PDF](/Documents/Implem
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 - [Contact](#contact)
+
+## Project_Structure
+
+```bash
+Image Dehazing
+    ├───Documents
+    ├───Experimental Results
+    ├───Images
+    ├───image_dehazer
+    │   └───__pycache__
+    └───outputImages
+```
 
 ## UserInterface
 
@@ -39,22 +52,27 @@ To test the working of the project, follow these installation steps:
 ```bash
 git clone https://github.com/P6s-fx/Image-Dehazing-with-Boundary-Constraint-and-Contextual-Regularization.git
 ```
+
 2. Install the required Python libraries if you haven't already.
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Run the application.
+
 ```bash
 python main.py
 ```
 
 ## Usage
+
 - Launch the application using the installation steps mentioned above.
 - Use the user-friendly interface to dehaze Hazy Image.
-- Check PSNR and SSIM from the Terminal to analyze the dehazing. 
+- Check PSNR and SSIM from the Terminal to analyze the dehazing.
 
 ## Contributing
+
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -67,9 +85,11 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgments
+
 We would like to acknowledge the following libraries and modules that made this project possible:
 
 - Tkinter
@@ -78,8 +98,10 @@ We would like to acknowledge the following libraries and modules that made this 
 - Numpy
 
 ## Contact
+
 If you have questions or want to get in touch with the project maintainer, feel free to contact:
+
 - Param Suthar
-- Email: param.corpid@email.com
+- Email: <param.corpid@email.com>
 - Linkedin: [Linkedin/ParamSuthar](https://www.linkedin.com/in/paramsuthar)
 - GitHub: [Github/P6s-fx](https://github.com/P6s-fx)
