@@ -4,7 +4,7 @@
 
 This project focuses on the implementation and enhancement of a novel method for single image dehazing. The proposed method combines a boundary constraint with a weighted L1-norm based contextual regularization to estimate the unknown scene transmission, aiming to remove hazes from a single input image efficiently and effectively.
 
-This project is Implementation of Reseach Paper.  [Paper-PDF](/Documents/Implemented_Research_Paper.pdf)
+This project is Implementation of Research Paper.  [Paper-PDF](/Documents/Implemented_Research_Paper.pdf)
 
 ## Table of Contents
 
@@ -20,6 +20,7 @@ This project is Implementation of Reseach Paper.  [Paper-PDF](/Documents/Impleme
 ## UserInterface
 
 ![Product Screenshot](https://github.com/P6s-fx/Image-Dehazing-with-Boundary-Constraint-and-Contextual-Regularization/blob/main/Experimental%20Results/IMG2.png)
+![Product Screenshot](https://github.com/P6s-fx/Image-Dehazing-with-Boundary-Constraint-and-Contextual-Regularization/blob/main/Experimental%20Results/IMG2.1.png)
 
 ## Features
 
