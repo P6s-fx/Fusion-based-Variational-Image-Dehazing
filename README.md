@@ -4,7 +4,7 @@
 
 This project focuses on the implementation and enhancement of a novel method for single image dehazing. The proposed method combines a boundary constraint with a weighted L1-norm based contextual regularization to estimate the unknown scene transmission, aiming to remove hazes from a single input image efficiently and effectively.
 
-This project is Implementation of Reseach Paper. [Ckeck Out](Implemented_Research_paper.pdf)
+This project is Implementation of Reseach Paper. [Ckeck Out](Documents/Implemented_Research_paper.pdf)
 
 ## Table of Contents
 
